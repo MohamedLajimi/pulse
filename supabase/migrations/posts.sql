@@ -72,6 +72,33 @@ CREATE TRIGGER on_post_soft_deleted
 AFTER UPDATE ON posts
 FOR EACH ROW EXECUTE FUNCTION decrement_post_count();
 
+CREATE OR REPLACE FUNCTION update_captions_on_username_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.username IS DISTINCT FROM NEW.username THEN
+        UPDATE posts
+        SET caption = REGEXP_REPLACE(
+            caption, 
+            '(?<=^|\s)@' || OLD.username || '\b', 
+            '@' || NEW.username, 
+            'g'
+        )
+        WHERE id IN (
+            SELECT post_id 
+            FROM post_mentions 
+            WHERE mentioned_user_id = NEW.id
+        );
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_username_change_captions
+AFTER UPDATE OF username ON profiles
+FOR EACH ROW
+EXECUTE FUNCTION update_captions_on_username_change();
+
+
 
 -- ============================================
 -- RLS POLICIES

@@ -54,6 +54,32 @@ CREATE TRIGGER profiles_updated_at
 BEFORE UPDATE ON profiles
 FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE OR REPLACE FUNCTION delete_old_avatar()
+RETURNS TRIGGER AS $$
+DECLARE
+    old_avatar_path TEXT;
+BEGIN
+    IF OLD.avatar_url IS DISTINCT FROM NEW.avatar_url AND OLD.avatar_url IS NOT NULL THEN
+        old_avatar_path := SPLIT_PART(OLD.avatar_url, 'public/avatars/', 2);
+        
+        IF old_avatar_path IS NOT NULL AND old_avatar_path != '' THEN
+        DELETE FROM storage.objects 
+        WHERE bucket_id = 'avatars' 
+        AND name = old_avatar_path;
+        END IF;
+        
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER tr_delete_old_avatar
+AFTER UPDATE OF avatar_url ON profiles
+FOR EACH ROW
+EXECUTE FUNCTION delete_old_avatar();
+
+
 
 -- ============================================
 -- RLS POLICIES

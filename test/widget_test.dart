@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:pulse/main.dart';
+import 'package:pulse/app.dart';
 
 void main() {
-  testWidgets('PulseApp renders', (WidgetTester tester) async {
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
     await tester.pumpWidget(const PulseApp());
     expect(find.text('Pulse'), findsOneWidget);
   });

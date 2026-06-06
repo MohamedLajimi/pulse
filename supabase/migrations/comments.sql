@@ -14,6 +14,7 @@ CREATE TABLE comments (
     parent_id  UUID         REFERENCES comments(id) ON DELETE CASCADE,
     body       VARCHAR(300) NOT NULL,
     like_count INTEGER      NOT NULL DEFAULT 0,
+    replies_count INTEGER   NOT NULL DEFAULT 0
     created_at TIMESTAMPTZ  NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ  NOT NULL DEFAULT now()
 );
@@ -70,6 +71,41 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_comment_deleted
 AFTER DELETE ON comments
 FOR EACH ROW EXECUTE FUNCTION decrement_comment_count();
+
+CREATE OR REPLACE FUNCTION handle_reply_increment()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.parent_id IS NOT NULL THEN
+        UPDATE comments
+        SET replies_count = replies_count + 1
+        WHERE id = NEW.parent_id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_reply_inserted
+AFTER INSERT ON comments
+FOR EACH ROW EXECUTE FUNCTION handle_reply_increment();
+
+CREATE OR REPLACE FUNCTION handle_reply_decrement()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.parent_id IS NOT NULL THEN
+        UPDATE comments
+        SET replies_count = replies_count - 1
+        WHERE id = OLD.parent_id;
+    END IF;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Triggers
+
+
+CREATE TRIGGER on_reply_deleted
+AFTER DELETE ON comments
+FOR EACH ROW EXECUTE FUNCTION handle_reply_decrement();
 
 -- ============================================
 -- RLS POLICIES
