@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pulse/core/theme/app_colors.dart';
@@ -8,7 +9,7 @@ abstract final class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: .dark,
-      fontFamily: 'Poppins',
+      fontFamily: 'Nunito',
 
       colorScheme: const ColorScheme.dark(
         brightness: Brightness.dark,
@@ -27,6 +28,11 @@ abstract final class AppTheme {
       scaffoldBackgroundColor: AppColors.background,
       canvasColor: AppColors.background,
 
+      actionIconTheme: ActionIconThemeData(
+        backButtonIconBuilder: (BuildContext context) =>
+            const Icon(CupertinoIcons.chevron_back, size: 24),
+      ),
+
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
         surfaceTintColor: Colors.transparent,
@@ -36,6 +42,7 @@ abstract final class AppTheme {
         titleTextStyle: AppTypography.titleLarge.copyWith(
           color: AppColors.textPrimary,
         ),
+
         iconTheme: const IconThemeData(color: AppColors.icon, size: 24),
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -74,17 +81,17 @@ abstract final class AppTheme {
       ),
 
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: AppColors.background,
         surfaceTintColor: Colors.transparent,
         indicatorColor: Colors.transparent,
         elevation: 0,
-        height: 56,
+        height: 60,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const IconThemeData(color: AppColors.icon, size: 26);
+            return const IconThemeData(color: AppColors.icon, size: 28);
           }
-          return const IconThemeData(color: AppColors.iconSecondary, size: 26);
+          return const IconThemeData(color: AppColors.iconSecondary, size: 28);
         }),
       ),
 
@@ -110,6 +117,13 @@ abstract final class AppTheme {
         ),
         contentTextStyle: AppTypography.bodyMedium.copyWith(
           color: AppColors.textSecondary,
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: AppColors.buttonPrimary,
+          foregroundColor: AppColors.onButtonPrimary,
+          textStyle: AppTypography.titleMedium,
         ),
       ),
 
@@ -178,7 +192,7 @@ abstract final class AppTheme {
           foregroundColor: AppColors.textPrimary,
           padding: const .symmetric(horizontal: 16, vertical: 10),
           shape: RoundedRectangleBorder(borderRadius: .circular(12)),
-          textStyle: AppTypography.labelLarge,
+          textStyle: AppTypography.labelMedium,
         ),
       ),
 

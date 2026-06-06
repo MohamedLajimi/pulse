@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppTypography {
-  static const String _fontFamily = 'Poppins';
+  static const String _fontFamily = 'Nunito';
+
+  static const double largeLetterSpacing = -0.5;
+  static const double mediumLetterSpacing = -0.3;
+  static const double smallLetterSpacing = -0.1;
 
   static const TextStyle displayLarge = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 34,
     fontWeight: .w700,
     height: 1.18,
-    letterSpacing: -0.5,
+    letterSpacing: largeLetterSpacing,
   );
 
   static const TextStyle displayMedium = TextStyle(
@@ -16,7 +20,7 @@ abstract final class AppTypography {
     fontSize: 28,
     fontWeight: .w700,
     height: 1.21,
-    letterSpacing: -0.3,
+    letterSpacing: mediumLetterSpacing,
   );
 
   static const TextStyle displaySmall = TextStyle(
@@ -24,7 +28,7 @@ abstract final class AppTypography {
     fontSize: 24,
     fontWeight: .w600,
     height: 1.25,
-    letterSpacing: -0.2,
+    letterSpacing: smallLetterSpacing,
   );
 
   static const TextStyle headlineLarge = TextStyle(
@@ -32,7 +36,7 @@ abstract final class AppTypography {
     fontSize: 22,
     fontWeight: .w700,
     height: 1.27,
-    letterSpacing: -0.2,
+    letterSpacing: largeLetterSpacing,
   );
 
   static const TextStyle headlineMedium = TextStyle(
@@ -40,7 +44,7 @@ abstract final class AppTypography {
     fontSize: 20,
     fontWeight: .w600,
     height: 1.3,
-    letterSpacing: -0.1,
+    letterSpacing: mediumLetterSpacing,
   );
 
   static const TextStyle headlineSmall = TextStyle(
@@ -48,7 +52,7 @@ abstract final class AppTypography {
     fontSize: 18,
     fontWeight: .w600,
     height: 1.33,
-    letterSpacing: 0,
+    letterSpacing: smallLetterSpacing,
   );
 
   static const TextStyle titleLarge = TextStyle(
@@ -56,7 +60,7 @@ abstract final class AppTypography {
     fontSize: 17,
     fontWeight: .w600,
     height: 1.35,
-    letterSpacing: 0,
+    letterSpacing: largeLetterSpacing,
   );
 
   static const TextStyle titleMedium = TextStyle(
@@ -64,7 +68,7 @@ abstract final class AppTypography {
     fontSize: 15,
     fontWeight: .w600,
     height: 1.4,
-    letterSpacing: 0.1,
+    letterSpacing: mediumLetterSpacing,
   );
 
   static const TextStyle titleSmall = TextStyle(
@@ -72,7 +76,7 @@ abstract final class AppTypography {
     fontSize: 13,
     fontWeight: .w600,
     height: 1.38,
-    letterSpacing: 0.1,
+    letterSpacing: smallLetterSpacing,
   );
 
   static const TextStyle bodyLarge = TextStyle(
@@ -80,7 +84,7 @@ abstract final class AppTypography {
     fontSize: 16,
     fontWeight: .w400,
     height: 1.5,
-    letterSpacing: 0.15,
+    letterSpacing: largeLetterSpacing,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -88,7 +92,7 @@ abstract final class AppTypography {
     fontSize: 14,
     fontWeight: .w400,
     height: 1.43,
-    letterSpacing: 0.15,
+    letterSpacing: mediumLetterSpacing,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -96,7 +100,7 @@ abstract final class AppTypography {
     fontSize: 12,
     fontWeight: .w400,
     height: 1.5,
-    letterSpacing: 0.2,
+    letterSpacing: smallLetterSpacing,
   );
 
   static const TextStyle labelLarge = TextStyle(
@@ -104,7 +108,7 @@ abstract final class AppTypography {
     fontSize: 15,
     fontWeight: .w600,
     height: 1.33,
-    letterSpacing: 0.1,
+    letterSpacing: largeLetterSpacing,
   );
 
   static const TextStyle labelMedium = TextStyle(
@@ -112,7 +116,7 @@ abstract final class AppTypography {
     fontSize: 12,
     fontWeight: .w500,
     height: 1.33,
-    letterSpacing: 0.3,
+    letterSpacing: mediumLetterSpacing,
   );
 
   static const TextStyle labelSmall = TextStyle(
@@ -120,6 +124,6 @@ abstract final class AppTypography {
     fontSize: 10,
     fontWeight: .w500,
     height: 1.4,
-    letterSpacing: 0.4,
+    letterSpacing: smallLetterSpacing,
   );
 }
