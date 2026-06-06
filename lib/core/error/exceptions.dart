@@ -43,3 +43,12 @@ class UnauthorizedException implements Exception {
   @override
   String toString() => 'UnauthorizedException: $message';
 }
+
+class PermissionException implements Exception {
+  const PermissionException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => 'PermissionException: $message';
+}
