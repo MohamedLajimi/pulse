@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pulse/shared/presentation/blocs/app_user/app_user_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:pulse/app.dart';
 import 'package:pulse/core/config/env_config.dart';
 import 'package:pulse/core/di/service_locator.dart';
-import 'package:pulse/core/theme/app_theme.dart';
+import 'package:pulse/shared/data/models/profile_model_adapter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +17,9 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: .light,
       systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: .light,
     ),
   );
 
@@ -28,34 +32,15 @@ Future<void> main() async {
     anonKey: EnvConfig.supabaseAnonKey,
   );
 
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProfileModelAdapter());
+
   await initDependencies();
 
-  runApp(const PulseApp());
-}
-
-class PulseApp extends StatelessWidget {
-  const PulseApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pulse',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark,
-      home: const _Placeholder(),
-    );
-  }
-}
-
-class _Placeholder extends StatelessWidget {
-  const _Placeholder();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      body: Center(child: Text('Pulse', style: theme.textTheme.displayLarge)),
-    );
-  }
+  runApp(
+    MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => sl<AppUserBloc>())],
+      child: const PulseApp(),
+    ),
+  );
 }

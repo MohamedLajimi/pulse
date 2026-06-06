@@ -34,6 +34,10 @@ class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure(super.message);
 }
 
+class PermissionFailure extends Failure {
+  const PermissionFailure(super.message);
+}
+
 class UnknownFailure extends Failure {
   const UnknownFailure([super.message = 'An unexpected error occurred.']);
 }
